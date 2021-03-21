@@ -1,0 +1,15 @@
+[Unit]
+Description=Birdwatch Service Server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=root
+WorkingDirectory=/home/pi/birdwatch/scripts
+ExecStart=/home/pi/birdwatch/scripts/birdwatch_server.py --host 192.168.1.1 --topic birdwatch --storage /samba/public
+
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
