@@ -64,8 +64,12 @@ Die Fotos und Videos werden jeden Tag in einem neuen Ordner `YYYY-MM-DD` abgespe
 * Die aktuell und zuletzt aufgenommenen Fotos und Videos werden von [`scripts/birdwatch_camera.py`](scripts/birdwatch_camera.py) kurzzeitig in einem Tmp-Ordner gespeichert. Um die Zahl der Speicherzugriff auf die SD-Karte zu minimieren empfiehlt sich die Verwendung einer [RAM-Disk](https://wiki.ubuntuusers.de/RAM-Disk_erstellen/). Der Pfad zur RAM-Disk muss dann über die Option `--tmp` mitgegeben werden.
 * Zur Abfrage des letzten Fotos und der Statusmeldungen von einem Android-basierten Smartphone aus, haben wir gute Erfahrungen mit der App [MQTT Dash](https://play.google.com/store/apps/details?id=net.routix.mqttdash) gemacht.
 
-## Beispiel-Video
+## Beispiel-Videos
 
-Das folgende Video zeigt einen Elternvogel während des Nestbaus.
+Die folgenden Videos zeigen den Nestbau und das Brüten.
 
-![Beim Nestbau](doc/nest-building.gif)
+![Beim frühen Nestbau](doc/early_nest_building.gif)
+
+![Das Nest ist fast fertig](doc/late_nest_building.gif)
+
+![Beim Brüten](doc/breeding.gif)
