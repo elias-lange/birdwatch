@@ -66,10 +66,14 @@ Die Fotos und Videos werden jeden Tag in einem neuen Ordner `YYYY-MM-DD` abgespe
 
 ## Beispiel-Videos
 
-Die folgenden Videos zeigen den Nestbau und das Brüten.
+Das folgende Video zeigt einen Elternvogel beim frühen Nestbau:
 
 ![Beim frühen Nestbau](doc/early_nest_building.gif)
 
+Nun ist das Nest fast fertig:
+
 ![Das Nest ist fast fertig](doc/late_nest_building.gif)
+
+Die Vogelmama hat acht Eier gelegt und brütet sie nun aus:
 
 ![Beim Brüten](doc/breeding.gif)
