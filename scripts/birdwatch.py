@@ -2,6 +2,7 @@
 
 import datetime
 import os
+import pathlib
 import shlex
 import threading
 import time
@@ -63,6 +64,7 @@ def renameFileIfExisting(sourcePath, targetPath, autofillDateTime=True):
     targetPath = targetPath.replace("YYYY-MM-DD", nowDateString)
     targetPath = targetPath.replace("HH-MM-SS", nowTimeString)
   if os.path.isfile(sourcePath):
+    pathlib.Path(targetPath).parent.mkdir(parents=True, exist_ok=True)
     os.rename(sourcePath, targetPath)
 
 
