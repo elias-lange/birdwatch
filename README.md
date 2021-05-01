@@ -3,7 +3,7 @@
 
 # Birdwatch
 
-Dieses Repository enthält zwei Python-Skripte zum Aufzeichnen und Speichern von Fotos und Videos von einer Raspberry Pi Camera, die ich mit meinem Vater zur Überwachung einer Vogelfamilie in einem selbstgebauten Vogelhaus programmiert habe.
+Dieses Repository enthält zwei Python-Skripte `birdwatch_camera.py` und `birdwatch_server.py` zum Aufzeichnen und Speichern von Fotos und Videos von einer Raspberry Pi Camera, die ich mit meinem Vater zur Überwachung einer Vogelfamilie in einem selbstgebauten Vogelhaus programmiert habe.
 
 ## Das Vogelhaus
 
@@ -20,14 +20,18 @@ Die Skripte sind so aufgebaut, dass sie auf zwei Rechner verteilt werden können
 1. Einen Raspberry Pi mit Raspberry Pi Camera im Vogelhaus, der abwechselnd ein Foto und ein 30-sekündiges Video aufnimmt.
 2. Ein weiterer Linux-basierter Rechner, der die Fotos und Videos dauerhaft speichert.
 
-Der Raspberry Pi überträgt die aufgenommenen Fotos und Videos per MQTT-Protokoll an den zweiten Rechner über die MQTT-Topics
+Das Skript `birdwatch_camera.py` für den Raspberry Pi überträgt die aufgenommenen Fotos und Videos per MQTT-Protokoll an den zweiten Rechner über die MQTT-Topics
 
-* `birdwatch` für die Fotos
-* `birdwatch/video` für die Videos
+* `birdwatch` für die Fotos und
+* `birdwatch/video` für die Videos.
 
-Auf einem dritten Topic `birdwatch/debug` werden Status-Informationen von beiden übertragen. Durch die Verwendung von MQTT können die Daten einfach auf weiteren Rechnern oder mit geeigneten Smartphone-Apps angezeigt werden. Das Präfix `birdwatch` in den Topic-Namen kann einfach per Kommandzeilenargument geändert werden.
+Auf einem dritten Topic `birdwatch/debug` werden Statusinformationen von beiden Rechnern (d.h. den Skripten) übertragen. Durch die Verwendung von MQTT können die Daten einfach auf weiteren Rechnern oder mit geeigneten Smartphone-Apps angezeigt werden.
 
-**birdwatch_camera.py.** Das Python-Skript für die Raspberry Pi im Vogelhaus findet sich in [`scripts/birdwatch_camera.py`](scripts/birdwatch_camera.py) und bietet folgende Optionen:
+Das Präfix `birdwatch` in den Topic-Namen kann einfach per Kommandzeilenargument geändert werden.
+
+Das Skript `birdwatch_camera.py` lauscht auf einem vierten Topic `birdwatch/ir_leds`. Empfängt es eine `"1"`, so aktiviert es die GPIO-Pins für die Infrarot-LEDs. Bei `"0"` werden sie wieder ausgeschaltet.
+
+**birdwatch_camera.py.** Das Python-Skript liegt in [`scripts/birdwatch_camera.py`](scripts/birdwatch_camera.py) und bietet folgende Optionen:
 
 ```
 usage: birdwatch_camera.py [-h] [--host HOST] [--topic TOPIC] [--tmp TMP]
