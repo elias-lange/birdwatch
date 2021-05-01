@@ -63,6 +63,7 @@ Die Fotos und Videos werden jeden Tag in einem neuen Ordner `YYYY-MM-DD` abgespe
 
 * Die aktuell und zuletzt aufgenommenen Fotos und Videos werden von [`scripts/birdwatch_camera.py`](scripts/birdwatch_camera.py) kurzzeitig in einem Tmp-Ordner gespeichert. Um die Zahl der Speicherzugriff auf die SD-Karte zu minimieren empfiehlt sich die Verwendung einer [RAM-Disk](https://wiki.ubuntuusers.de/RAM-Disk_erstellen/). Der Pfad zur RAM-Disk muss dann über die Option `--tmp` mitgegeben werden.
 * Zur Abfrage des letzten Fotos und der Statusmeldungen von einem Android-basierten Smartphone aus, haben wir gute Erfahrungen mit der App [MQTT Dash](https://play.google.com/store/apps/details?id=net.routix.mqttdash) gemacht.
+* Im Ordner [systemd-config](systemd-config/) finden sich Vorlagen um `birdwatch_camera.py` und `birdwatch_server.py` als Systemd-Dienste einzurichten und beim Boot automatisch zu starten. Die Vorlagen sind mit sudo-Berechtigung jeweils nach `/etc/systemd/system` zu kopieren, anzupassen und dann mit `sudo systemctl enable birdwatch_camera.service` bzw. `sudo systemctl enable birdwatch_server.service` zu aktivieren.
 
 ## Beispiel-Videos
 
