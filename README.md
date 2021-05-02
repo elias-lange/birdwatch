@@ -7,8 +7,10 @@ Dieses Repository enthält zwei Python-Skripte `birdwatch_camera.py` und `birdwa
 
 * [Das Vogelhaus](#das-vogelhaus)
 * [Die Python-Skripte](#die-python-skripte)
-* [Tipps](#tipps)
 * [Beispiel-Videos](#beispiel-videos)
+* [Installation](#installation)
+* [Details zur Implementierung](#details-zur-implementierung)
+* [Tipps](#tipps)
 
 ## Das Vogelhaus
 
@@ -32,7 +34,7 @@ Das Skript `birdwatch_camera.py` für den Raspberry Pi überträgt die aufgenomm
 
 Auf einem dritten Topic `birdwatch/debug` werden Statusinformationen von beiden Rechnern (d.h. den Skripten) übertragen. Durch die Verwendung von MQTT können die Daten einfach auf weiteren Rechnern oder mit geeigneten Smartphone-Apps angezeigt werden.
 
-Das Präfix `birdwatch` in den Topic-Namen kann einfach per Kommandzeilenargument geändert werden.
+Das Präfix `birdwatch` in den Topic-Namen kann einfach per Kommandozeilenargument geändert werden.
 
 Das Skript `birdwatch_camera.py` lauscht auf einem vierten Topic `birdwatch/ir_leds`. Empfängt es eine `"1"`, so aktiviert es die GPIO-Pins für die Infrarot-LEDs. Bei `"0"` werden sie wieder ausgeschaltet.
 
@@ -68,12 +70,6 @@ optional arguments:
 
 Die Fotos und Videos werden jeden Tag in einem neuen Ordner `YYYY-MM-DD` abgespeichert, mit Namen `image_YYYY-MM-DD_HH-MM-SS.jpg` bzw. `video_YYYY-MM-DD_HH-MM-SS.mp4`. Videos werden vor der finalen Speicherung automatisch mit [ffmpeg](https://www.ffmpeg.org/) in das MP4-Format konvertiert.
 
-## Tipps
-
-* Die aktuell und zuletzt aufgenommenen Fotos und Videos werden von [`scripts/birdwatch_camera.py`](scripts/birdwatch_camera.py) kurzzeitig in einem Tmp-Ordner gespeichert. Um die Zahl der Speicherzugriff auf die SD-Karte zu minimieren empfiehlt sich die Verwendung einer [RAM-Disk](https://wiki.ubuntuusers.de/RAM-Disk_erstellen/). Der Pfad zur RAM-Disk muss dann über die Option `--tmp` mitgegeben werden.
-* Zur Abfrage des letzten Fotos und der Statusmeldungen von einem Android-basierten Smartphone aus, haben wir gute Erfahrungen mit der App [MQTT Dash](https://play.google.com/store/apps/details?id=net.routix.mqttdash) gemacht.
-* Im Ordner [systemd-config](systemd-config/) finden sich Vorlagen um `birdwatch_camera.py` und `birdwatch_server.py` als Systemd-Dienste einzurichten und beim Boot automatisch zu starten. Die Vorlagen sind mit sudo-Berechtigung jeweils nach `/etc/systemd/system` zu kopieren, anzupassen und dann mit `sudo systemctl enable birdwatch_camera.service` bzw. `sudo systemctl enable birdwatch_server.service` zu aktivieren.
-
 ## Beispiel-Videos
 
 Das folgende Video zeigt einen Elternvogel beim frühen Nestbau:
@@ -87,3 +83,33 @@ Nun ist das Nest fast fertig:
 Die Vogelmama hat acht Eier gelegt und brütet sie nun aus:
 
 ![Beim Brüten](doc/breeding.gif)
+
+## Installation
+
+`birdwatch_camera.py` ruft mit `subprocess.Popen` verschiedene Programme als separate Prozesse auf. Diese sind:
+
+* `raspistill` und `raspivid` zur eigentlichen Aufnahme der Fotos und Videos. Diese Programme sind Teil des Raspberry Pi OS.
+* `mosquitto_pub` zum Versand der Bild- und Videodateien. Dieses kann mit `sudo apt install mosquitto-clients` installiert werden.
+
+Ferner verwendet `birdwatch_camera.py` die Paho-MQTT-Client-Library für Python. Diese kann mit `sudo apt install python3-paho-mqtt` installiert werden.
+
+Auch `birdwatch_server.py` ruft verschiedene Programme auf:
+
+* `mosquitto_sub` zum Empfang der Bild- und Videodateien. Auch dieses ist Teil des `mosquitto-clients` Pakets.
+* `ffmpeg` zur Konvertierung der Videodateien. Dieses kann mit `sudo apt install ffmpeg` installiert werden.
+
+Ferner wird ein MQTT-Server benötigt. Wir haben gute Erfahrungen mit [Eclipse Mosquitto](https://mosquitto.org/) gemacht. Dieser kann unter Ubuntu und Raspberry Pi OS mittels `sudo apt install mosquitto` installiert werden.
+
+Im Ordner [systemd-config](systemd-config/) finden sich Vorlagen um `birdwatch_camera.py` und `birdwatch_server.py` als Systemd-Dienste einzurichten und beim Boot automatisch zu starten. Die Vorlagen sind mit sudo-Berechtigung jeweils nach `/etc/systemd/system` zu kopieren, anzupassen und dann mit `sudo systemctl enable birdwatch_camera.service` bzw. `sudo systemctl enable birdwatch_server.service` zu aktivieren.
+
+## Details zur Implementierung
+
+* Die Skripte `birdwatch_camera.py` und `birdwatch_server.py` sind beide recht knapp gehalten. Die meisten Funktionen liegen in einer gemeinsam verwendeten Python-Datei [`scripts/birdwatch.py`](scripts/birdwatch.py).
+* Wie unter *Installation* beschrieben, rufen beide Python-Skripte diverse Programme als separate Prozesse auf. Auf diese Weise können mehrere Aufgaben parallel ausgeführt werden, da beim Aufruf von `subprocess.Popen` das _global interpreter lock_ (GIL) freigegeben wird.
+* Alle Namen, GPIO-Pin-Nummern, etc. sind in [`scripts/birdwatch_constants.py`](scripts/birdwatch_constants.py) definiert und können so leicht angepasst werden.
+
+## Tipps
+
+* Die aktuell und zuletzt aufgenommenen Fotos und Videos werden von [`scripts/birdwatch_camera.py`](scripts/birdwatch_camera.py) kurzzeitig in einem Tmp-Ordner gespeichert. Um die Zahl der Speicherzugriff auf die SD-Karte zu minimieren empfiehlt sich die Verwendung einer [RAM-Disk](https://wiki.ubuntuusers.de/RAM-Disk_erstellen/). Der Pfad zur RAM-Disk muss dann über die Option `--tmp` mitgegeben werden.
+* Zur Abfrage des letzten Fotos und der Statusmeldungen von einem Android-basierten Smartphone aus, haben wir gute Erfahrungen mit der App [MQTT Dash](https://play.google.com/store/apps/details?id=net.routix.mqttdash) gemacht. In dieser App kann auch eine Schaltfläche eingerichtet werden, mit der die Infrarot-LEDs über das Topic `birdwatch/ir_leds` an- und abgeschaltet werden können.
+
