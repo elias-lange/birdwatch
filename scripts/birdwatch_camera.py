@@ -47,10 +47,16 @@ class BirdwatchCamera:
     elif message.topic == self.topic + bwc.SHUTDOWN_CAMERA:
       payload = str(message.payload.decode("utf-8"))
       if (payload == "1"):
-        if (bw.getSecondsSinceBoot() < self.lastShutdownRequestTimestamp
-            + bwc.MAX_SHUTDOWN_CAMERA_CONFIRMATION_SECONDS):
+        now = bw.getSecondsSinceBoot()
+        if now < self.lastShutdownRequestTimestamp + bwc.MAX_SHUTDOWN_CAMERA_CONFIRMATION_SECONDS:
+          bw.log("Received confirmation to shutdown camera computer now.")
           os.system('shutdown now')
-        self.lastShutdownRequestTimestamp = bw.getSecondsSinceBoot()
+        else:
+          bw.log("Received new request to shutdown camera computer - please confirm within {:1d}s"
+                 .format(bwc.MAX_SHUTDOWN_CAMERA_CONFIRMATION_SECONDS))
+          self.lastShutdownRequestTimestamp = now
+      else:
+        bw.log("Ignoring message '" + payload + "' on topic " + (self.topic + bwc.SHUTDOWN_CAMERA))
 
   def recordVideosAndImages(self):
     imageRecordingPath = self.tmpPath + "/image_recording.jpg"

@@ -93,16 +93,16 @@ Die Vogelmama hat acht Eier gelegt und brütet sie nun aus:
 * `raspistill` und `raspivid` zur eigentlichen Aufnahme der Fotos und Videos. Diese Programme sind Teil des Raspberry Pi OS.
 * `mosquitto_pub` zum Versand der Bild- und Videodateien. Dieses kann mit `sudo apt install mosquitto-clients` installiert werden.
 
-Ferner verwendet `birdwatch_camera.py` die Paho-MQTT-Client-Library für Python. Diese kann mit `sudo apt install python3-paho-mqtt` installiert werden.
-
 Auch `birdwatch_server.py` ruft verschiedene Programme auf:
 
 * `mosquitto_sub` zum Empfang der Bild- und Videodateien. Auch dieses ist Teil des `mosquitto-clients` Pakets.
 * `ffmpeg` zur Konvertierung der Videodateien. Dieses kann mit `sudo apt install ffmpeg` installiert werden.
 
-Ferner wird ein MQTT-Server benötigt. Wir haben gute Erfahrungen mit [Eclipse Mosquitto](https://mosquitto.org/) gemacht. Dieser kann unter Ubuntu und Raspberry Pi OS mittels `sudo apt install mosquitto` installiert werden.
+Beide Skripte verwenden außerdem die Paho-MQTT-Client-Library für Python. Diese kann mit `sudo apt install python3-paho-mqtt` installiert werden.
 
 Im Ordner [systemd-config](systemd-config/) finden sich Vorlagen um `birdwatch_camera.py` und `birdwatch_server.py` als Systemd-Dienste einzurichten und beim Boot automatisch zu starten. Die Vorlagen sind mit sudo-Berechtigung jeweils nach `/etc/systemd/system` zu kopieren, anzupassen und dann mit `sudo systemctl enable birdwatch_camera.service` bzw. `sudo systemctl enable birdwatch_server.service` zu aktivieren.
+
+Schließlich wird noch ein MQTT-Server benötigt. Wir haben gute Erfahrungen mit [Eclipse Mosquitto](https://mosquitto.org/) gemacht. Dieser kann unter Ubuntu und Raspberry Pi OS mittels `sudo apt install mosquitto` installiert werden.
 
 ## Details zur Implementierung
 
