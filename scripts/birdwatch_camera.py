@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import argparse
+import os
 import threading
 import time
 
@@ -17,6 +18,7 @@ class BirdwatchCamera:
   host = "undefined"
   topic = "undefined"
   tmpPath = "undefined"
+  lastShutdownRequestTimestamp = - bwc.MAX_SHUTDOWN_CAMERA_CONFIRMATION_SECONDS
 
   fileExchangeLock = threading.Lock()
 
@@ -29,17 +31,26 @@ class BirdwatchCamera:
     self.mqttClient = mqtt.Client()
     self.mqttClient.connect(self.host, port=1883, keepalive=10)
     self.mqttClient.subscribe(self.topic + bwc.IR_LEDS_SUBTOPIC, qos=1)
+    self.mqttClient.subscribe(self.topic + bwc.SHUTDOWN_CAMERA, qos=1)
     self.mqttClient.on_message = self.onMqttMessage
 
   def onMqttMessage(self, client, userdata, message):
     assert(client == self.mqttClient)
-    payload = str(message.payload.decode("utf-8"))
-    if (payload == "0"):
-      self.setIRLedPins(RPi.GPIO.LOW)
-    elif (payload == "1"):
-      self.setIRLedPins(RPi.GPIO.HIGH)
-    else:
-      bw.log("Ignoring message '" + payload + "' on topic " + (self.topic + bwc.IR_LEDS_SUBTOPIC))
+    if message.topic == self.topic + bwc.IR_LEDS_SUBTOPIC:
+      payload = str(message.payload.decode("utf-8"))
+      if (payload == "0"):
+        self.setIRLedPins(RPi.GPIO.LOW)
+      elif (payload == "1"):
+        self.setIRLedPins(RPi.GPIO.HIGH)
+      else:
+        bw.log("Ignoring message '" + payload + "' on topic " + (self.topic + bwc.IR_LEDS_SUBTOPIC))
+    elif message.topic == self.topic + bwc.SHUTDOWN_CAMERA:
+      payload = str(message.payload.decode("utf-8"))
+      if (payload == "1"):
+        if (bw.getSecondsSinceBoot() < self.lastShutdownRequestTimestamp
+            + bwc.MAX_SHUTDOWN_CAMERA_CONFIRMATION_SECONDS):
+          os.system('shutdown now')
+        self.lastShutdownRequestTimestamp = bw.getSecondsSinceBoot()
 
   def recordVideosAndImages(self):
     imageRecordingPath = self.tmpPath + "/image_recording.jpg"

@@ -38,6 +38,8 @@ Das Präfix `birdwatch` in den Topic-Namen kann einfach per Kommandozeilenargume
 
 Das Skript `birdwatch_camera.py` lauscht auf einem vierten Topic `birdwatch/ir_leds`. Empfängt es eine `"1"`, so aktiviert es die GPIO-Pins für die Infrarot-LEDs. Bei `"0"` werden sie wieder ausgeschaltet.
 
+Außerdem lauscht `birdwatch_camera.py` auf `birdwatch/shutdown_camera`. Werden binnen fünf Sekunden zwei Nachrichten (als Schutz gegen versehentliches Auslösen) mit `"1"` empfangen, so wird der Rechner mit `shutdown now` heruntergefahren. Das funktioniert nur, wenn `birdwatch_camera.py` mit entsprechender Berechtigung ausgeführt wird.
+
 **birdwatch_camera.py.** Das Python-Skript liegt in [`scripts/birdwatch_camera.py`](scripts/birdwatch_camera.py) und bietet folgende Optionen:
 
 ```
@@ -111,5 +113,5 @@ Im Ordner [systemd-config](systemd-config/) finden sich Vorlagen um `birdwatch_c
 ## Tipps
 
 * Die aktuell und zuletzt aufgenommenen Fotos und Videos werden von [`scripts/birdwatch_camera.py`](scripts/birdwatch_camera.py) kurzzeitig in einem Tmp-Ordner gespeichert. Um die Zahl der Speicherzugriff auf die SD-Karte zu minimieren empfiehlt sich die Verwendung einer [RAM-Disk](https://wiki.ubuntuusers.de/RAM-Disk_erstellen/). Der Pfad zur RAM-Disk muss dann über die Option `--tmp` mitgegeben werden.
-* Zur Abfrage des letzten Fotos und der Statusmeldungen von einem Android-basierten Smartphone aus, haben wir gute Erfahrungen mit der App [MQTT Dash](https://play.google.com/store/apps/details?id=net.routix.mqttdash) gemacht. In dieser App kann auch eine Schaltfläche eingerichtet werden, mit der die Infrarot-LEDs über das Topic `birdwatch/ir_leds` an- und abgeschaltet werden können.
+* Zur Abfrage des letzten Fotos und der Statusmeldungen von einem Android-basierten Smartphone aus, haben wir gute Erfahrungen mit der App [MQTT Dash](https://play.google.com/store/apps/details?id=net.routix.mqttdash) gemacht. In dieser App kann auch eine Schaltfläche eingerichtet werden, mit der die Infrarot-LEDs über das Topic `birdwatch/ir_leds` an- und abgeschaltet werden können. Ebenso kann eine Schaltfläche zum Herunterfahren des Kamera-Rechners über das Topic `birdwatch/shutdown_camera` eingerichtet werden.
 
