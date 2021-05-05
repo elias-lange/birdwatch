@@ -86,6 +86,18 @@ Die Vogelmama hat acht Eier gelegt und brütet sie nun aus:
 
 ![Beim Brüten](doc/breeding.gif)
 
+Die Küken sind vor einem Tag geschlüpft:
+
+![Die Küken sind ein Tag alt](doc/one_day_old_baby_birds.gif)
+
+Die Eltern füttern die Küken fast ununterbrochen:
+
+![Beide Elternteile füttern](doc/feeding_by_both_parents.gif)
+
+Zwischendurch werden die noch nackten Küken gewärmt:
+
+![Wärmen der Küken](doc/warming_the_baby_birds.gif)
+
 ## Installation
 
 `birdwatch_camera.py` ruft mit `subprocess.Popen` verschiedene Programme als separate Prozesse auf. Diese sind:
