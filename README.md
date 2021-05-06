@@ -74,29 +74,11 @@ Die Fotos und Videos werden jeden Tag in einem neuen Ordner `YYYY-MM-DD` abgespe
 
 ## Beispiel-Videos
 
-Das folgende Video zeigt einen Elternvogel beim frühen Nestbau:
+![Beim frühen Nestbau](doc/early_nest_building.gif) ![Das Nest ist fast fertig](doc/late_nest_building.gif)
 
-![Beim frühen Nestbau](doc/early_nest_building.gif)
+![Beim Brüten](doc/breeding.gif) ![Die Küken sind ein Tag alt](doc/one_day_old_baby_birds.gif)
 
-Nun ist das Nest fast fertig:
-
-![Das Nest ist fast fertig](doc/late_nest_building.gif)
-
-Die Vogelmama hat acht Eier gelegt und brütet sie nun aus:
-
-![Beim Brüten](doc/breeding.gif)
-
-Die Küken sind vor einem Tag geschlüpft:
-
-![Die Küken sind ein Tag alt](doc/one_day_old_baby_birds.gif)
-
-Die Eltern füttern die Küken fast ununterbrochen:
-
-![Beide Elternteile füttern](doc/feeding_by_both_parents.gif)
-
-Zwischendurch werden die noch nackten Küken gewärmt:
-
-![Wärmen der Küken](doc/warming_the_baby_birds.gif)
+![Beide Elternteile füttern](doc/feeding_by_both_parents.gif) ![Wärmen der Küken](doc/warming_the_baby_birds.gif)
 
 ## Installation
 
