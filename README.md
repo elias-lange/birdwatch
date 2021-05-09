@@ -74,11 +74,14 @@ Die Fotos und Videos werden jeden Tag in einem neuen Ordner `YYYY-MM-DD` abgespe
 
 ## Beispiel-Videos
 
-![Beim frühen Nestbau](doc/early_nest_building.gif) ![Das Nest ist fast fertig](doc/late_nest_building.gif)
+Ein paar Eindrücke von Nestbau, Brüten und Aufzucht der Küken in unserem Vogelhaus im Frühjahr 2021. **Klick auf GIF lädt höher aufgelöste MP4-Videodatei herunter.**
 
-![Beim Brüten](doc/breeding.gif) ![Die Küken sind ein Tag alt](doc/one_day_old_baby_birds.gif)
-
-![Beide Elternteile füttern](doc/feeding_by_both_parents.gif) ![Wärmen der Küken](doc/warming_the_baby_birds.gif)
+[![Beim frühen Nestbau](doc/early_nest_building.gif)](https://raw.githubusercontent.com/elias-lange/birdwatch/main/doc/early_nest_building.mp4)
+[![Das Nest ist fast fertig](doc/late_nest_building.gif)](https://raw.githubusercontent.com/elias-lange/birdwatch/main/doc/late_nest_building.mp4)
+[![Beim Brüten](doc/breeding.gif)](https://raw.githubusercontent.com/elias-lange/birdwatch/main/doc/breeding.mp4)
+[![Die Küken sind ein Tag alt](doc/one_day_old_baby_birds.gif)](https://raw.githubusercontent.com/elias-lange/birdwatch/main/doc/one_day_old_baby_birds.mp4)
+[![Beide Elternteile füttern](doc/feeding_by_both_parents.gif)](https://raw.githubusercontent.com/elias-lange/birdwatch/main/doc/feeding_by_both_parents.mp4)
+[![Wärmen der Küken](doc/warming_the_baby_birds.gif)](https://raw.githubusercontent.com/elias-lange/birdwatch/main/doc/warming_the_baby_birds.mp4)
 
 ## Installation
 
