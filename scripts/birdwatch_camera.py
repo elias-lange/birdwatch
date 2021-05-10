@@ -28,11 +28,6 @@ class BirdwatchCamera:
     self.tmpPath = bw.normalizePath(tmpPath)
     bw.configureLogging(self.host, bwc.LOGGING_PREFIX_CAMERA,
                         self.topic + bwc.DEBUG_SUBTOPIC)
-    self.mqttClient = mqtt.Client()
-    self.mqttClient.connect(self.host, port=1883, keepalive=10)
-    self.mqttClient.subscribe(self.topic + bwc.IR_LEDS_SUBTOPIC, qos=1)
-    self.mqttClient.subscribe(self.topic + bwc.SHUTDOWN_CAMERA, qos=1)
-    self.mqttClient.on_message = self.onMqttMessage
 
   def onMqttMessage(self, client, userdata, message):
     assert(client == self.mqttClient)
@@ -111,6 +106,14 @@ class BirdwatchCamera:
       timeToSleep = 45.0 - timeSinceBoot
       bw.log("Will wait {:3.1f}s until the computer has booted completely.".format(timeToSleep))
       time.sleep(timeToSleep)
+
+    # Start MQTT client after above waiting period.
+    self.mqttClient = mqtt.Client()
+    self.mqttClient.connect(self.host, port=1883, keepalive=10)
+    self.mqttClient.subscribe(self.topic + bwc.IR_LEDS_SUBTOPIC, qos=1)
+    self.mqttClient.subscribe(self.topic + bwc.SHUTDOWN_CAMERA, qos=1)
+    self.mqttClient.on_message = self.onMqttMessage
+
     bw.switchRasPiLedsOff()
     self.configureIRLedPins()
     t1 = threading.Thread(target=self.recordVideosAndImages)
