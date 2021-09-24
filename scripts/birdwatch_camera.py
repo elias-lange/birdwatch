@@ -59,7 +59,6 @@ class BirdwatchCamera:
     videoRecordingPath = self.tmpPath + "/video_recording.h264"
     videoReadyPath = self.tmpPath + "/video_ready.h264"
     while(True):
-      time.sleep(1.0)
       bw.recordRasPiCamImage(imageRecordingPath)
       with self.fileExchangeLock:
         bw.removeFileIfExisting(imageReadyPath)
@@ -69,6 +68,8 @@ class BirdwatchCamera:
         with self.fileExchangeLock:
           bw.removeFileIfExisting(videoReadyPath)
           bw.renameFileIfExisting(videoRecordingPath, videoReadyPath)
+      else:
+        time.sleep(1.0)
 
   def myMQTTLoop(self):
     imageReadyPath = self.tmpPath + "/image_ready.jpg"
