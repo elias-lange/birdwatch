@@ -78,7 +78,7 @@ class BirdwatchCamera:
     bw.removeFileIfExisting(self.tmpPath + "/image_sending.jpg")
     bw.removeFileIfExisting(self.tmpPath + "/video_sending.h264")
     while(True):
-      time.sleep(0.2)
+      time.sleep(0.5)
       with self.fileExchangeLock:
         bw.renameFileIfExisting(imageReadyPath, imageSendingPath)
       bw.sendFileViaMQTTIfExisting(self.host, imageSendingPath, self.topic)
